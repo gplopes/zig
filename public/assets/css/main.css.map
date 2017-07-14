@@ -1,0 +1,1 @@
+{"version":3,"sources":["styles/main.scss"],"names":[],"mappings":"AAAA,IAAI,AAAC,CACH,KAAK,CAAE,KAAK,CACZ,gBAAgB,CAAC,MAAM,CACvB,UAAU,CAAE,MAAM,CACnB","file":"","sourcesContent":["body {\n  color: beige;\n  background-color:tomato;\n  text-align: center;\n}\n"]}

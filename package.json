@@ -1,0 +1,24 @@
+{
+  "name": "Zig",
+  "version": "1.0.0",
+  "description": "Web Developer Tool Box",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "fuse-box": "^2.2.0",
+    "node-sass": "^4.5.3",
+    "uglify-js": "^3.0.24"
+  },
+  "scripts": {
+    "start": "node .zig/zig",
+    "build": "NODE_ENV=production node .zig/zig",
+    "lint": "eslint ./src/index.js || exit 0"
+  }
+}
