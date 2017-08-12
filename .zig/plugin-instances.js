@@ -1,13 +1,19 @@
+const {
+  __rootDir,
+  __publicDir,
+ } = require('./zig-path');
+
 // CSSPlugin Instance
 exports.cssConfig = {
   group: 'assets/css/main.css',
-  outFile: `./public/assets/css/main.css`
+  outFile: `${__publicDir}/css/main.css`
 
 };
 
 // SassPlugin Instance
 exports.sassConfig = {
-  outputStyle: 'compressed'
+  outputStyle: 'compressed',
+  importer: true,
 };
 
 // BabelPlugin Instance
@@ -33,7 +39,8 @@ exports.quantumConfig = {
 };
 
 exports.serverConfig = {
-  index: '> index.js',
+  open : true,
+  root: `${__rootDir}/public`,
+  index: `> index.js`,
   port: 8000,
-  httpServer: true,
 };

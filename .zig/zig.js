@@ -1,3 +1,4 @@
+// -- Fusbox
 const {
   FuseBox,
   SVGPlugin,
@@ -7,6 +8,7 @@ const {
   UglifyJSPlugin,
   EnvPlugin,
   QuantumPlugin,
+  Sparky,
 } = require('fuse-box');
 
 // -- Plugins Configuration
@@ -19,15 +21,24 @@ const {
   quantumConfig,
 } = require('./plugin-instances');
 
+// -- Paths
+const {
+  __rootDir,
+  __publicDir,
+} = require('./zig-path');
+
+
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const fuseConfig = {
-  homeDir: 'public',
+  homeDir: `${__rootDir}/src`,
   sourcemaps: !isProduction,
   hash: isProduction,
-  cache: false,
-  output: 'public/assets/js/bundle.js',
+  cache: true,
+  log: true,
+  debug: true,
+  output: `${__publicDir}/js/$name.js`,
 };
 
 // Plugins
@@ -50,12 +61,13 @@ if (isProduction) {
 
 // Create FuseBox Instance
 const fuse = new FuseBox(fuseConfig);
-const zig = fuse.bundle('zig').instructions(serverConfig.index);
+const zig = fuse.bundle('bundle').instructions(serverConfig.index);
 
 // Server
 if (!isProduction) {
-  zig.watch("src/**");
-  fuse.dev(serverConfig);
+  fuse.dev(serverConfig)
+  zig.hmr().watch(`${__rootDir}/src/**`);
   fuse.run();
+  Sparky.watch([`${__rootDir}/src/styles/**`]);
 };
 

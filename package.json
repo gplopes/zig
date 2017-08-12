@@ -1,6 +1,6 @@
 {
   "name": "Zig",
-  "version": "1.0.0",
+  "version": "8.3.0",
   "description": "Web Developer Tool Box",
   "main": "index.js",
   "license": "MIT",

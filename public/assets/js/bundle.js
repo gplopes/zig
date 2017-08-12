@@ -1,54 +1,12 @@
 (function(FuseBox){FuseBox.$fuse$=FuseBox;
-FuseBox.global("__fsbx_css", function (__filename, contents) {
-    if (FuseBox.isServer) {
-        return;
-    }
-    var styleId = __filename.replace(/[\.\/]+/g, '-');
-    if (styleId.charAt(0) === '-')
-        styleId = styleId.substring(1);
-    var exists = document.getElementById(styleId);
-    if (!exists) {
-        //<link href="//fonts.googleapis.com/css?family=Covered+By+Your+Grace" rel="stylesheet" type="text/css">
-        var s = document.createElement(contents ? 'style' : 'link');
-        s.id = styleId;
-        s.type = 'text/css';
-        if (contents) {
-            s.innerHTML = contents;
-        }
-        else {
-            s.rel = 'stylesheet';
-            s.href = __filename;
-        }
-        document.getElementsByTagName('head')[0].appendChild(s);
-    }
-    else {
-        if (contents) {
-            exists.innerHTML = contents;
-        }
-    }
-});
-/**
- * Listens to 'async' requets and if the name is a css file
- * wires it to `__fsbx_css`
- */
-FuseBox.on('async', function (name) {
-    if (FuseBox.isServer) {
-        return;
-    }
-    if (/\.css$/.test(name)) {
-        __fsbx_css(name);
-        return false;
-    }
-});
-
 FuseBox.pkg("default", {}, function(___scope___){
 ___scope___.file("index.js", function(exports, require, module, __filename, __dirname){
 
 'use strict';
 
 /**
- * Hive Loader
- * @since HLOADER 0.1
+ * Zig Loader
+ * @since ZigLoader 0.1
  */
 
 require('./styles/main.scss');
@@ -56,7 +14,8 @@ require('./scripts/index');
 });
 ___scope___.file("styles/main.scss", function(exports, require, module, __filename, __dirname){
 
-module.exports = require('./assets/css/main.css')
+
+require("~/assets/css/main.css")
 });
 ___scope___.file("scripts/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -68,7 +27,8 @@ var _hello2 = _interopRequireDefault(_hello);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var zig = new _hello2.default();
+var zig = new _hello2.default(); // Zig
+
 zig.hi();
 });
 ___scope___.file("scripts/hello.js", function(exports, require, module, __filename, __dirname){
@@ -91,7 +51,7 @@ var Zig = function () {
   _createClass(Zig, [{
     key: 'hi',
     value: function hi() {
-      console.log('Hey there!');
+      console.log('Hey Ziggest -)');
     }
   }]);
 
@@ -102,16 +62,16 @@ exports.default = Zig;
 });
 ___scope___.file("assets/css/main.css", function(exports, require, module, __filename, __dirname){
 
-__fsbx_css("assets/css/main.css");
+require("fuse-box-css")("assets/css/main.css");
 });
 });
 FuseBox.pkg("fusebox-hot-reload", {}, function(___scope___){
 ___scope___.file("index.js", function(exports, require, module, __filename, __dirname){
 
+"use strict";
 /**
  * @module listens to `source-changed` socket events and actions hot reload
  */
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Client = require('fusebox-websocket').SocketClient;
 exports.connect = function (port, uri) {
@@ -124,9 +84,8 @@ exports.connect = function (port, uri) {
         uri: uri,
     });
     client.connect();
-    console.log('connecting...');
     client.on('source-changed', function (data) {
-        console.log("Updating \"" + data.path + "\" ...");
+        console.info("%cupdate \"" + data.path + "\"", 'color: #237abe');
         /**
          * If a plugin handles this request then we don't have to do anything
          **/
@@ -196,7 +155,7 @@ var SocketClient = (function () {
     };
     SocketClient.prototype.connect = function (fn) {
         var _this = this;
-        console.log('connect', this.url);
+        console.log('%cConnecting to fusebox HMR at ' + this.url, 'color: #237abe');
         setTimeout(function () {
             _this.client = new WebSocket(_this.url);
             _this.bindEvents(fn);
@@ -217,6 +176,7 @@ var SocketClient = (function () {
     SocketClient.prototype.bindEvents = function (fn) {
         var _this = this;
         this.client.onopen = function (event) {
+            console.log('%cConnected', 'color: #237abe');
             if (fn) {
                 fn(_this);
             }
@@ -554,10 +514,439 @@ if (FuseBox.isServer) {
 });
 return ___scope___.entry = "index.js";
 });
-FuseBox.import("fusebox-hot-reload").connect(4444, "")
+FuseBox.pkg("fuse-box-css", {}, function(___scope___){
+___scope___.file("index.js", function(exports, require, module, __filename, __dirname){
+
+/**
+ * Listens to 'async' requets and if the name is a css file
+ * wires it to `__fsbx_css`
+ */
+if (typeof FuseBox !== "undefined" && FuseBox.isBrowser) {
+    FuseBox.on('async', function(name) {
+        if (FuseBox.isServer) {
+            return;
+        }
+        if (/\.css$/.test(name)) {
+            __fsbx_css(name);
+            return false;
+        }
+    });
+}
+
+module.exports = function(__filename, contents) {
+    if (!FuseBox.isServer) {
+        var styleId = __filename.replace(/[\.\/]+/g, '-');
+        if (styleId.charAt(0) === '-') styleId = styleId.substring(1);
+        var exists = document.getElementById(styleId);
+        if (!exists) {
+            //<link href="//fonts.googleapis.com/css?family=Covered+By+Your+Grace" rel="stylesheet" type="text/css">
+            var s = document.createElement(contents ? 'style' : 'link');
+            s.id = styleId;
+            s.type = 'text/css';
+            if (contents) {
+                s.innerHTML = contents;
+            } else {
+                s.rel = 'stylesheet';
+                s.href = __filename;
+            }
+            document.getElementsByTagName('head')[0].appendChild(s);
+        } else {
+            if (contents) {
+                exists.innerHTML = contents;
+            }
+        }
+    }
+}
+});
+return ___scope___.entry = "index.js";
+});
+FuseBox.import("fusebox-hot-reload").connect(8000, "")
 
 FuseBox.import("default/index.js");
 FuseBox.main("default/index.js");
 })
-(function(e){function r(e){var r=e.charCodeAt(0),n=e.charCodeAt(1);if((d||58!==n)&&(r>=97&&r<=122||64===r)){if(64===r){var t=e.split("/"),i=t.splice(2,t.length).join("/");return[t[0]+"/"+t[1],i||void 0]}var o=e.indexOf("/");if(o===-1)return[e];var a=e.substring(0,o),u=e.substring(o+1);return[a,u]}}function n(e){return e.substring(0,e.lastIndexOf("/"))||"./"}function t(){for(var e=[],r=0;r<arguments.length;r++)e[r]=arguments[r];for(var n=[],t=0,i=arguments.length;t<i;t++)n=n.concat(arguments[t].split("/"));for(var o=[],t=0,i=n.length;t<i;t++){var a=n[t];a&&"."!==a&&(".."===a?o.pop():o.push(a))}return""===n[0]&&o.unshift(""),o.join("/")||(o.length?"/":".")}function i(e){var r=e.match(/\.(\w{1,})$/);return r&&r[1]?e:e+".js"}function o(e){if(d){var r,n=document,t=n.getElementsByTagName("head")[0];/\.css$/.test(e)?(r=n.createElement("link"),r.rel="stylesheet",r.type="text/css",r.href=e):(r=n.createElement("script"),r.type="text/javascript",r.src=e,r.async=!0),t.insertBefore(r,t.firstChild)}}function a(e,r){for(var n in e)e.hasOwnProperty(n)&&r(n,e[n])}function u(e){return{server:require(e)}}function f(e,n){var o=n.path||"./",a=n.pkg||"default",f=r(e);if(f&&(o="./",a=f[0],n.v&&n.v[a]&&(a=a+"@"+n.v[a]),e=f[1]),e)if(126===e.charCodeAt(0))e=e.slice(2,e.length),o="./";else if(!d&&(47===e.charCodeAt(0)||58===e.charCodeAt(1)))return u(e);var s=h[a];if(!s){if(d&&"electron"!==g.target)throw"Package not found "+a;return u(a+(e?"/"+e:""))}e=e?e:"./"+s.s.entry;var l,c=t(o,e),v=i(c),p=s.f[v];return!p&&v.indexOf("*")>-1&&(l=v),p||l||(v=t(c,"/","index.js"),p=s.f[v],p||(v=c+".js",p=s.f[v]),p||(p=s.f[c+".jsx"]),p||(v=c+"/index.jsx",p=s.f[v])),{file:p,wildcard:l,pkgName:a,versions:s.v,filePath:c,validPath:v}}function s(e,r,n){if(void 0===n&&(n={}),!d)return r(/\.(js|json)$/.test(e)?v.require(e):"");if(n&&n.ajaxed===e)return console.error(e,"does not provide a module");var i=new XMLHttpRequest;i.onreadystatechange=function(){if(4==i.readyState)if(200==i.status){var n=i.getResponseHeader("Content-Type"),o=i.responseText;/json/.test(n)?o="module.exports = "+o:/javascript/.test(n)||(o="module.exports = "+JSON.stringify(o));var a=t("./",e);g.dynamic(a,o),r(g.import(e,{ajaxed:e}))}else console.error(e,"not found on request"),r(void 0)},i.open("GET",e,!0),i.send()}function l(e,r){var n=m[e];if(n)for(var t in n){var i=n[t].apply(null,r);if(i===!1)return!1}}function c(e,r){if(void 0===r&&(r={}),58===e.charCodeAt(4)||58===e.charCodeAt(5))return o(e);var t=f(e,r);if(t.server)return t.server;var i=t.file;if(t.wildcard){var a=new RegExp(t.wildcard.replace(/\*/g,"@").replace(/[.?*+^$[\]\\(){}|-]/g,"\\$&").replace(/@@/g,".*").replace(/@/g,"[a-z0-9$_-]+"),"i"),u=h[t.pkgName];if(u){var p={};for(var m in u.f)a.test(m)&&(p[m]=c(t.pkgName+"/"+m));return p}}if(!i){var g="function"==typeof r,x=l("async",[e,r]);if(x===!1)return;return s(e,function(e){return g?r(e):null},r)}var _=t.pkgName;if(i.locals&&i.locals.module)return i.locals.module.exports;var w=i.locals={},y=n(t.validPath);w.exports={},w.module={exports:w.exports},w.require=function(e,r){return c(e,{pkg:_,path:y,v:t.versions})},w.require.main={filename:d?"./":v.require.main.filename,paths:d?[]:v.require.main.paths};var j=[w.module.exports,w.require,w.module,t.validPath,y,_];return l("before-import",j),i.fn.apply(0,j),l("after-import",j),w.module.exports}if(e.FuseBox)return e.FuseBox;var d="undefined"!=typeof window&&window.navigator,v=d?window:global;d&&(v.global=window),e=d&&"undefined"==typeof __fbx__dnm__?e:module.exports;var p=d?window.__fsbx__=window.__fsbx__||{}:v.$fsbx=v.$fsbx||{};d||(v.require=require);var h=p.p=p.p||{},m=p.e=p.e||{},g=function(){function r(){}return r.global=function(e,r){return void 0===r?v[e]:void(v[e]=r)},r.import=function(e,r){return c(e,r)},r.on=function(e,r){m[e]=m[e]||[],m[e].push(r)},r.exists=function(e){try{var r=f(e,{});return void 0!==r.file}catch(e){return!1}},r.remove=function(e){var r=f(e,{}),n=h[r.pkgName];n&&n.f[r.validPath]&&delete n.f[r.validPath]},r.main=function(e){return this.mainFile=e,r.import(e,{})},r.expose=function(r){var n=function(n){var t=r[n].alias,i=c(r[n].pkg);"*"===t?a(i,function(r,n){return e[r]=n}):"object"==typeof t?a(t,function(r,n){return e[n]=i[r]}):e[t]=i};for(var t in r)n(t)},r.dynamic=function(r,n,t){this.pkg(t&&t.pkg||"default",{},function(t){t.file(r,function(r,t,i,o,a){var u=new Function("__fbx__dnm__","exports","require","module","__filename","__dirname","__root__",n);u(!0,r,t,i,o,a,e)})})},r.flush=function(e){var r=h.default;for(var n in r.f)e&&!e(n)||delete r.f[n].locals},r.pkg=function(e,r,n){if(h[e])return n(h[e].s);var t=h[e]={};return t.f={},t.v=r,t.s={file:function(e,r){return t.f[e]={fn:r}}},n(t.s)},r.addPlugin=function(e){this.plugins.push(e)},r.packages=h,r.isBrowser=d,r.isServer=!d,r.plugins=[],r}();return d||(v.FuseBox=g),e.FuseBox=g}(this))
-//# sourceMappingURL=bundle.js.map
+((function(__root__){
+if (__root__["FuseBox"]) return __root__["FuseBox"];
+var $isBrowser = typeof window !== "undefined" && window.navigator;
+var g = $isBrowser ? window : global;
+if ($isBrowser) {
+    g["global"] = window;
+}
+__root__ = !$isBrowser || typeof __fbx__dnm__ !== "undefined" ? module.exports : __root__;
+var $fsbx = $isBrowser ? (window["__fsbx__"] = window["__fsbx__"] || {})
+    : g["$fsbx"] = g["$fsbx"] || {};
+if (!$isBrowser) {
+    g["require"] = require;
+}
+var $packages = $fsbx.p = $fsbx.p || {};
+var $events = $fsbx.e = $fsbx.e || {};
+function $getNodeModuleName(name) {
+    var n = name.charCodeAt(0);
+    var s = name.charCodeAt(1);
+    if (!$isBrowser && s === 58) {
+        return;
+    }
+    if (n >= 97 && n <= 122 || n === 64) {
+        if (n === 64) {
+            var s_1 = name.split("/");
+            var target = s_1.splice(2, s_1.length).join("/");
+            return [s_1[0] + "/" + s_1[1], target || undefined];
+        }
+        var index = name.indexOf("/");
+        if (index === -1) {
+            return [name];
+        }
+        var first = name.substring(0, index);
+        var second = name.substring(index + 1);
+        return [first, second];
+    }
+}
+;
+function $getDir(filePath) {
+    return filePath.substring(0, filePath.lastIndexOf("/")) || "./";
+}
+;
+function $pathJoin() {
+    var string = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        string[_i] = arguments[_i];
+    }
+    var parts = [];
+    for (var i = 0, l = arguments.length; i < l; i++) {
+        parts = parts.concat(arguments[i].split("/"));
+    }
+    var newParts = [];
+    for (var i = 0, l = parts.length; i < l; i++) {
+        var part = parts[i];
+        if (!part || part === ".")
+            continue;
+        if (part === "..") {
+            newParts.pop();
+        }
+        else {
+            newParts.push(part);
+        }
+    }
+    if (parts[0] === "")
+        newParts.unshift("");
+    return newParts.join("/") || (newParts.length ? "/" : ".");
+}
+;
+function $ensureExtension(name) {
+    var matched = name.match(/\.(\w{1,})$/);
+    if (matched) {
+        if (!matched[1]) {
+            return name + ".js";
+        }
+        return name;
+    }
+    return name + ".js";
+}
+;
+function $loadURL(url) {
+    if ($isBrowser) {
+        var d = document;
+        var head = d.getElementsByTagName("head")[0];
+        var target;
+        if (/\.css$/.test(url)) {
+            target = d.createElement("link");
+            target.rel = "stylesheet";
+            target.type = "text/css";
+            target.href = url;
+        }
+        else {
+            target = d.createElement("script");
+            target.type = "text/javascript";
+            target.src = url;
+            target.async = true;
+        }
+        head.insertBefore(target, head.firstChild);
+    }
+}
+;
+function $loopObjKey(obj, func) {
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            func(key, obj[key]);
+        }
+    }
+}
+;
+function $serverRequire(path) {
+    return { server: require(path) };
+}
+;
+function $getRef(name, o) {
+    var basePath = o.path || "./";
+    var pkgName = o.pkg || "default";
+    var nodeModule = $getNodeModuleName(name);
+    if (nodeModule) {
+        basePath = "./";
+        pkgName = nodeModule[0];
+        if (o.v && o.v[pkgName]) {
+            pkgName = pkgName + "@" + o.v[pkgName];
+        }
+        name = nodeModule[1];
+    }
+    if (name) {
+        if (name.charCodeAt(0) === 126) {
+            name = name.slice(2, name.length);
+            basePath = "./";
+        }
+        else {
+            if (!$isBrowser && (name.charCodeAt(0) === 47 || name.charCodeAt(1) === 58)) {
+                return $serverRequire(name);
+            }
+        }
+    }
+    var pkg = $packages[pkgName];
+    if (!pkg) {
+        if ($isBrowser && FuseBox.target !== "electron") {
+            throw "Package not found " + pkgName;
+        }
+        else {
+            return $serverRequire(pkgName + (name ? "/" + name : ""));
+        }
+    }
+    name = name ? name : "./" + pkg.s.entry;
+    var filePath = $pathJoin(basePath, name);
+    var validPath = $ensureExtension(filePath);
+    var file = pkg.f[validPath];
+    var wildcard;
+    if (!file && validPath.indexOf("*") > -1) {
+        wildcard = validPath;
+    }
+    if (!file && !wildcard) {
+        validPath = $pathJoin(filePath, "/", "index.js");
+        file = pkg.f[validPath];
+        if (!file) {
+            validPath = filePath + ".js";
+            file = pkg.f[validPath];
+        }
+        if (!file) {
+            file = pkg.f[filePath + ".jsx"];
+        }
+        if (!file) {
+            validPath = filePath + "/index.jsx";
+            file = pkg.f[validPath];
+        }
+    }
+    return {
+        file: file,
+        wildcard: wildcard,
+        pkgName: pkgName,
+        versions: pkg.v,
+        filePath: filePath,
+        validPath: validPath,
+    };
+}
+;
+function $async(file, cb, o) {
+    if (o === void 0) { o = {}; }
+    if ($isBrowser) {
+        if (o && o.ajaxed === file) {
+            return console.error(file, 'does not provide a module');
+        }
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    var contentType = xmlhttp.getResponseHeader("Content-Type");
+                    var content = xmlhttp.responseText;
+                    if (/json/.test(contentType)) {
+                        content = "module.exports = " + content;
+                    }
+                    else {
+                        if (!/javascript/.test(contentType)) {
+                            content = "module.exports = " + JSON.stringify(content);
+                        }
+                    }
+                    var normalized = $pathJoin("./", file);
+                    FuseBox.dynamic(normalized, content);
+                    cb(FuseBox.import(file, { ajaxed: file }));
+                }
+                else {
+                    console.error(file, 'not found on request');
+                    cb(undefined);
+                }
+            }
+        };
+        xmlhttp.open("GET", file, true);
+        xmlhttp.send();
+    }
+    else {
+        if (/\.(js|json)$/.test(file))
+            return cb(g["require"](file));
+        return cb("");
+    }
+}
+;
+function $trigger(name, args) {
+    var e = $events[name];
+    if (e) {
+        for (var i in e) {
+            var res = e[i].apply(null, args);
+            if (res === false) {
+                return false;
+            }
+        }
+        ;
+    }
+}
+;
+function $import(name, o) {
+    if (o === void 0) { o = {}; }
+    if (name.charCodeAt(4) === 58 || name.charCodeAt(5) === 58) {
+        return $loadURL(name);
+    }
+    var ref = $getRef(name, o);
+    if (ref.server) {
+        return ref.server;
+    }
+    var file = ref.file;
+    if (ref.wildcard) {
+        var safeRegEx = new RegExp(ref.wildcard
+            .replace(/\*/g, "@")
+            .replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")
+            .replace(/@@/g, ".*")
+            .replace(/@/g, "[a-z0-9$_-]+"), "i");
+        var pkg_1 = $packages[ref.pkgName];
+        if (pkg_1) {
+            var batch = {};
+            for (var n in pkg_1.f) {
+                if (safeRegEx.test(n)) {
+                    batch[n] = $import(ref.pkgName + "/" + n);
+                }
+            }
+            return batch;
+        }
+    }
+    if (!file) {
+        var asyncMode_1 = typeof o === "function";
+        var processStopped = $trigger("async", [name, o]);
+        if (processStopped === false) {
+            return;
+        }
+        return $async(name, function (result) { return asyncMode_1 ? o(result) : null; }, o);
+    }
+    var pkg = ref.pkgName;
+    if (file.locals && file.locals.module)
+        return file.locals.module.exports;
+    var locals = file.locals = {};
+    var path = $getDir(ref.validPath);
+    locals.exports = {};
+    locals.module = { exports: locals.exports };
+    locals.require = function (name, optionalCallback) {
+        return $import(name, {
+            pkg: pkg,
+            path: path,
+            v: ref.versions,
+        });
+    };
+    if ($isBrowser || !g["require"].main) {
+        locals.require.main = { filename: "./", paths: [] };
+    }
+    else {
+        locals.require.main = g["require"].main;
+    }
+    var args = [locals.module.exports, locals.require, locals.module, ref.validPath, path, pkg];
+    $trigger("before-import", args);
+    file.fn.apply(0, args);
+    $trigger("after-import", args);
+    return locals.module.exports;
+}
+;
+var FuseBox = (function () {
+    function FuseBox() {
+    }
+    FuseBox.global = function (key, obj) {
+        if (obj === undefined)
+            return g[key];
+        g[key] = obj;
+    };
+    FuseBox.import = function (name, o) {
+        return $import(name, o);
+    };
+    FuseBox.on = function (n, fn) {
+        $events[n] = $events[n] || [];
+        $events[n].push(fn);
+    };
+    FuseBox.exists = function (path) {
+        try {
+            var ref = $getRef(path, {});
+            return ref.file !== undefined;
+        }
+        catch (err) {
+            return false;
+        }
+    };
+    FuseBox.remove = function (path) {
+        var ref = $getRef(path, {});
+        var pkg = $packages[ref.pkgName];
+        if (pkg && pkg.f[ref.validPath]) {
+            delete pkg.f[ref.validPath];
+        }
+    };
+    FuseBox.main = function (name) {
+        this.mainFile = name;
+        return FuseBox.import(name, {});
+    };
+    FuseBox.expose = function (obj) {
+        var _loop_1 = function (k) {
+            var alias = obj[k].alias;
+            var xp = $import(obj[k].pkg);
+            if (alias === "*") {
+                $loopObjKey(xp, function (exportKey, value) { return __root__[exportKey] = value; });
+            }
+            else if (typeof alias === "object") {
+                $loopObjKey(alias, function (exportKey, value) { return __root__[value] = xp[exportKey]; });
+            }
+            else {
+                __root__[alias] = xp;
+            }
+        };
+        for (var k in obj) {
+            _loop_1(k);
+        }
+    };
+    FuseBox.dynamic = function (path, str, opts) {
+        this.pkg(opts && opts.pkg || "default", {}, function (___scope___) {
+            ___scope___.file(path, function (exports, require, module, __filename, __dirname) {
+                var res = new Function("__fbx__dnm__", "exports", "require", "module", "__filename", "__dirname", "__root__", str);
+                res(true, exports, require, module, __filename, __dirname, __root__);
+            });
+        });
+    };
+    FuseBox.flush = function (shouldFlush) {
+        var def = $packages["default"];
+        for (var fileName in def.f) {
+            if (!shouldFlush || shouldFlush(fileName)) {
+                delete def.f[fileName].locals;
+            }
+        }
+    };
+    FuseBox.pkg = function (name, v, fn) {
+        if ($packages[name])
+            return fn($packages[name].s);
+        var pkg = $packages[name] = {};
+        pkg.f = {};
+        pkg.v = v;
+        pkg.s = {
+            file: function (name, fn) { return pkg.f[name] = { fn: fn }; },
+        };
+        return fn(pkg.s);
+    };
+    FuseBox.addPlugin = function (plugin) {
+        this.plugins.push(plugin);
+    };
+    FuseBox.packages = $packages;
+    FuseBox.isBrowser = $isBrowser;
+    FuseBox.isServer = !$isBrowser;
+    FuseBox.plugins = [];
+    return FuseBox;
+}());
+if (!$isBrowser) {
+    g["FuseBox"] = FuseBox;
+}
+
+return __root__["FuseBox"] = FuseBox; } )(this))
