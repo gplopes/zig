@@ -1,5 +1,5 @@
 export default class Zig {
   hi() {
-    console.log('Hey Ziggest -)');
+    console.log('Hey people... =)');
   }
 }

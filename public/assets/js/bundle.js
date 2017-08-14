@@ -15,7 +15,7 @@ require('./scripts/index');
 ___scope___.file("styles/main.scss", function(exports, require, module, __filename, __dirname){
 
 
-require("~/assets/css/main.css")
+require("fuse-box-css")("styles/main.scss", "body{color:beige;background-color:purple;text-align:center;width:100%;height:100vh;display:flex;align-items:center;justify-content:center}\n\n/*# sourceMappingURL=main.scss.map */")
 });
 ___scope___.file("scripts/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -51,7 +51,7 @@ var Zig = function () {
   _createClass(Zig, [{
     key: 'hi',
     value: function hi() {
-      console.log('Hey Ziggest -)');
+      console.log('Hey people... =)');
     }
   }]);
 
@@ -59,10 +59,6 @@ var Zig = function () {
 }();
 
 exports.default = Zig;
-});
-___scope___.file("assets/css/main.css", function(exports, require, module, __filename, __dirname){
-
-require("fuse-box-css")("assets/css/main.css");
 });
 });
 FuseBox.pkg("fusebox-hot-reload", {}, function(___scope___){

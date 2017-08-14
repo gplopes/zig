@@ -44,9 +44,17 @@ const fuseConfig = {
 // Plugins
 fuseConfig.plugins = [
   SVGPlugin(),
-  [SassPlugin(sassConfig), CSSPlugin(cssConfig)],
   BabelPlugin(babelConfig),
 ];
+
+// Dev
+if (!isProduction) {
+  const devPlugins = [
+    [SassPlugin(sassConfig), CSSPlugin()],
+  ];
+  fuseConfig.plugins = fuseConfig.plugins.concat(devPlugins);
+}
+
 
 // Prod
 if (isProduction) {
@@ -54,6 +62,7 @@ if (isProduction) {
     UglifyJSPlugin(uglifyConfig),
     EnvPlugin({ NODE_ENV: "production" }),
     QuantumPlugin(quantumConfig),
+    [SassPlugin(sassConfig), CSSPlugin(cssConfig)],
   ];
   fuseConfig.plugins = fuseConfig.plugins.concat(prodPlugins)
 }
