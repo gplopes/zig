@@ -14,7 +14,7 @@ exports.postCSSConfig = [
 
 // CSSPlugin Instance
 exports.cssConfig = {
-  group: 'assets/css/main.css',
+  group: 'main.css',
   outFile: `${__publicDir}/css/main.css`
 };
 
@@ -43,7 +43,8 @@ exports.uglifyConfig = {
 
 exports.quantumConfig = {
   removeExportsInterop: false,
-  uglify: true
+  uglify: true,
+  treeshake: true,
 };
 
 exports.serverConfig = {

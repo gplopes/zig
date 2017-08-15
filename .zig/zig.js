@@ -31,7 +31,6 @@ const {
 
 // -- Productions
 const isProduction = process.env.NODE_ENV === 'production';
-console.log('isProduction', isProduction);
 
 // -- Config
 const fuseConfig = {
@@ -81,4 +80,10 @@ if (!isProduction) {
   zig.hmr().watch(`${__rootDir}/src/**`);
   fuse.run();
 };
+
+if (isProduction) {
+  fuse.run();
+}
+
+
 
