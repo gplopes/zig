@@ -1,0 +1,29 @@
+.title {
+  align-items: stretch;
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: min-content;
+}
+
+.title,
+.subtitle {
+  word-break: break-word;
+}
+
+.title em,
+.title span,
+.subtitle em,
+.subtitle span {
+  font-weight: inherit;
+}
+.title .tag,
+.subtitle .tag {
+  vertical-align: middle;
+}
+
+.title strong {
+  color: inherit;
+  font-weight: inherit;
+}

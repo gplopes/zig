@@ -1,0 +1,32 @@
+section {
+  @extend %clearfix;
+  float: left;
+  width: 100%;
+  position: relative;
+  padding: $global-padding 0;
+}
+
+.row {
+  @extend %clearfix;
+  float: left;
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.container {
+  max-width: $breakpoint-desktop;
+  margin: 0 auto;
+  position: relative;
+  @media (max-width: $breakpoint-desktop) {
+    padding: 0 60px;
+  }
+  @media (max-width: $breakpoint-tablet) {
+    padding: 0 30px;
+    max-width: none;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0 20px;
+  }
+}
+

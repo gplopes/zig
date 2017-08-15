@@ -1,0 +1,18 @@
+%hide-text {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+%clearfix {
+  &:after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+}
+
+%align-center {
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,35 @@
+// -- Black
+$colors-black: hsl(0, 0%, 4%) !default;
+
+// -- Grey
+$colors-grey-dark: hsl(0, 0%, 29%) !default;
+$colors-grey: hsl(0, 0%, 48%) !default;
+$colors-grey-light: hsl(0, 0%, 71%) !default;
+$colors-grey-lighter: hsl(0, 0%, 86%) !default;
+
+// -- Defaults
+$colors-primary: tomato !default;
+$colors-secondary: #c0392b !default;
+
+// -- Text colors
+$colors-text: $colors-grey !default;
+$colors-text-light: $colors-grey-light !default;
+$colors-text-strong: $colors-grey-dark !default;
+
+// -- Body Colors
+$colors-body-background: hsl(0, 0%, 96%) !default;
+$colors-body: $colors-grey-dark !default;
+
+// -- Extras
+$colors-hr: $colors-grey-lighter !default;
+$colors-shadow: $colors-grey-lighter !default;
+
+// -- Colors Links
+$colors-link: $colors-grey !default;
+$colors-strong: $colors-grey-dark !default;
+$colors-link-hover: $colors-grey-dark !default;
+$colors-input-focus: $colors-primary !default;
+
+// -- Buttons Colors
+$colors-button-background: #2c3e50;
+$colors-button-text: #ecf0f1;

@@ -5,16 +5,17 @@ const {
   CSSPlugin,
   BabelPlugin,
   SassPlugin,
+  PostCSSPlugin,
   UglifyJSPlugin,
   EnvPlugin,
   QuantumPlugin,
-  Sparky,
 } = require('fuse-box');
 
 // -- Plugins Configuration
 const {
   cssConfig,
   sassConfig,
+  postCSSConfig,
   babelConfig,
   uglifyConfig,
   serverConfig,
@@ -28,9 +29,11 @@ const {
 } = require('./zig-path');
 
 
-
+// -- Productions
 const isProduction = process.env.NODE_ENV === 'production';
+console.log('isProduction', isProduction);
 
+// -- Config
 const fuseConfig = {
   homeDir: `${__rootDir}/src`,
   sourcemaps: !isProduction,
@@ -41,42 +44,41 @@ const fuseConfig = {
   output: `${__publicDir}/js/$name.js`,
 };
 
-// Plugins
+// -- Plugins
 fuseConfig.plugins = [
   SVGPlugin(),
   BabelPlugin(babelConfig),
 ];
 
-// Dev
+// -- Dev
 if (!isProduction) {
   const devPlugins = [
-    [SassPlugin(sassConfig), CSSPlugin()],
+    [SassPlugin(sassConfig), PostCSSPlugin(postCSSConfig), CSSPlugin()],
   ];
   fuseConfig.plugins = fuseConfig.plugins.concat(devPlugins);
 }
 
 
-// Prod
+// -- Prod
 if (isProduction) {
   const prodPlugins = [
     UglifyJSPlugin(uglifyConfig),
     EnvPlugin({ NODE_ENV: "production" }),
     QuantumPlugin(quantumConfig),
-    [SassPlugin(sassConfig), CSSPlugin(cssConfig)],
+    [SassPlugin(sassConfig), PostCSSPlugin(postCSSConfig), CSSPlugin(cssConfig)],
   ];
   fuseConfig.plugins = fuseConfig.plugins.concat(prodPlugins)
 }
 
 
-// Create FuseBox Instance
+// -- Create FuseBox Instance
 const fuse = new FuseBox(fuseConfig);
 const zig = fuse.bundle('bundle').instructions(serverConfig.index);
 
-// Server
+// -- Server
 if (!isProduction) {
   fuse.dev(serverConfig)
   zig.hmr().watch(`${__rootDir}/src/**`);
   fuse.run();
-  Sparky.watch([`${__rootDir}/src/styles/**`]);
 };
 

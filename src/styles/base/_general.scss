@@ -1,0 +1,65 @@
+
+html {
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+background-color: $colors-body-background;
+font-size: $body-font-size;
+min-width: 300px;
+overflow-x: hidden;
+overflow-y: scroll;
+text-rendering: optimizeLegibility;
+}
+
+body {
+color: $colors-body;
+font-size: 1rem;
+font-weight: $body-font-weight;
+line-height: $body-line-height;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: $font-primary;
+}
+
+hr {
+  margin: 1.5rem 0;
+  height: 1px;
+  background-color: $colors-hr;
+}
+
+a {
+  color: $colors-link;
+  cursor: pointer;
+  text-decoration: none;
+  strong {
+    color: currentColor;
+  }
+  &:hover {
+    color: $colors-link-hover;
+  }
+}
+
+
+strong {
+  color: $colors-strong;
+  font-weight: $weight-bold;
+}
+
+img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+::selection {
+  background: $colors-primary;
+  color: darken($colors-primary,25%);
+}
+::-moz-selection {
+  background: $colors-primary;
+  color: darken($colors-primary,25%);
+}

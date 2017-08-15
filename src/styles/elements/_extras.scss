@@ -1,0 +1,60 @@
+$hamburger-size: 50px !default;
+
+.overlay {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: rgba($colors-black, 0.2);
+}
+
+.hamburger {
+  cursor: pointer;
+  display: block;
+  position: relative;
+  height: $hamburger-size;
+  width: $hamburger-size;
+  span {
+    background-color: $colors-grey-dark;
+    display: block;
+    height: 1px;
+    left: 50%;
+    top: 50%;
+    margin-left: -7px;
+    position: absolute;
+    transition: none $global-speed ease;
+    transition-property: background, left, opacity, transform;
+    width: 15px;
+    &:nth-child(1) {
+      margin-top: -6px;
+    }
+    &:nth-child(2) {
+      margin-top: -1px;
+    }
+    &:nth-child(3) {
+      margin-top: 4px;
+    }
+  }
+  &:hover {
+    background-color: $colors-grey-lighter;
+  }
+  &.open {
+    span {
+      background-color: $colors-grey-light;
+      &:nth-child(1) {
+        margin-left: -5px;
+        transform: rotate(45deg);
+        transform-origin: left top;
+      }
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      &:nth-child(3) {
+        margin-left: -5px;
+        transform: rotate(-45deg);
+        transform-origin: left bottom;
+      }
+    }
+  }
+}

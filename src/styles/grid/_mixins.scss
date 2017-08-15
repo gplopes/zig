@@ -1,0 +1,62 @@
+@mixin cols($qnt: 1, $gap: $global-padding) {
+
+  // Settings;
+  $col-width: percentage(100/$qnt) / 100;
+  $col-gap: $gap;
+
+  // Col Class
+  @if ($qnt == 1) {
+    display: block;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 0.75rem;
+  } @else {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    margin-top: -0.75rem;
+    &:last-child {
+      margin-bottom: -0.75rem;
+    }
+    &:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .col {
+    @extend %clearfix;
+    width: $col-width;
+    position: relative;
+    box-sizing: border-box;
+    vertical-align: top;
+    float: left;
+    transition: all $global-speed ease;
+
+    // Paddings
+    @if $qnt > 3 {
+      padding: $gap 2%;
+    } @else {
+      padding: $col-gap;
+    }
+
+    // Breakpoints
+    @if $qnt > 3 {
+      @media (max-width: $breakpoint-tablet-ls) {
+        width: 50%;
+        padding: $gap;
+      }
+    }
+
+    @if $qnt == 3 {
+      @media (max-width: $breakpoint-tablet + 40) {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: $breakpoint-phablet) {
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+}

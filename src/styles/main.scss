@@ -1,10 +1,12 @@
-body {
-  color: beige;
-  background-color: purple;
-  text-align: center;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+// Mini Sass Started
+
+// Breakpoint: npm install breakpoint-sass --save-dev
+// @import "~breakpoint-sass/stylesheets/_breakpoint.scss";
+
+@import './utils/_all';
+@import './base/_all';
+@import './grid/_all';
+@import './elements/_all';
+@import './layouts/_all';
+@import './vendors/_all';
+@import './pages/_all';

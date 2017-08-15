@@ -1,0 +1,38 @@
+
+$button-height: 40px;
+
+.button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  outline: none;
+  box-shadow: none;
+  border: 0;
+  font-size: 12px;
+  font-weight: $weight-medium;
+  background-color: $colors-button-background;
+  color: $colors-button-text;
+  cursor: pointer;
+  justify-content: center;
+  justify-content: flex-start;
+  height: $button-height;
+  line-height: $button-height;
+  padding: 0 30px;
+  text-align: center;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  vertical-align: top;
+  user-select: none;
+  &:hover {
+    box-shadow: $box-link-hover-shadow;
+  }
+}
+
+.button[disabled] {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}

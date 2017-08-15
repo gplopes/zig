@@ -1,0 +1,21 @@
+$box-background-color: #ecf0f1 !default;
+
+.box {
+  background-color: $box-background-color;
+  border-radius: 20px;
+  box-shadow: $box-shadow;
+  color: inherit;
+  display: block;
+  padding: 1.25rem;
+}
+
+.box-hover,
+a.box {
+  &:hover,
+  &:focus {
+    box-shadow: $box-link-hover-shadow;
+  }
+  &:active {
+    box-shadow: $box-link-active-shadow;
+  }
+}

@@ -1,13 +1,21 @@
 const {
   __rootDir,
   __publicDir,
- } = require('./zig-path');
+} = require('./zig-path');
+
+// -- PostCSS Plugins
+const autoprefixer = require('autoprefixer');
+
+
+// PostCSS Instance,
+exports.postCSSConfig = [
+  autoprefixer
+];
 
 // CSSPlugin Instance
 exports.cssConfig = {
   group: 'assets/css/main.css',
   outFile: `${__publicDir}/css/main.css`
-
 };
 
 // SassPlugin Instance
