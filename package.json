@@ -15,6 +15,7 @@
     "eslint-plugin-react": "^6.9.0",
     "fuse-box": "^2.2.0",
     "node-sass": "^4.5.3",
+    "postcss": "^6.0.9",
     "uglify-js": "^3.0.24"
   },
   "scripts": {
